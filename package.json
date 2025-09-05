@@ -1,4 +1,10 @@
 {
+  "homepage": "https://github.com/MExSPIRIT/AkshaySharma/",
+  "scripts": {
+  "build": "vite build",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d dist"
+}
   "name": "vite_react_shadcn_ts",
   "private": true,
   "version": "0.0.0",
