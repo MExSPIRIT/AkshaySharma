@@ -1,6 +1,6 @@
 import { GraduationCap, Code, Gamepad2, Video } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import profileImage from "@/assets/profile-placeholder.jpg";
+import profileImage from "@/assets/Akshay.jpg";
 
 const About = () => {
   const highlights = [

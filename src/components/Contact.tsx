@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Github, Linkedin, Youtube, Send, MapPin, Phone, Mail, MessageSquare, User, Calendar } from "lucide-react";
+import { Github, Linkedin, Youtube, Send, MapPin, Phone, Mail } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,32 +14,6 @@ const Contact = () => {
     email: "",
     message: ""
   });
-  const [receivedMessages, setReceivedMessages] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      message: "Hi Akshay! I'm impressed by your AI/ML projects. Would love to collaborate on a computer vision project.",
-      timestamp: new Date("2024-01-15T10:30:00"),
-      read: false
-    },
-    {
-      id: 2,
-      name: "Sarah Wilson",
-      email: "sarah.wilson@techcorp.com",
-      message: "Your portfolio is amazing! We're looking for a fresher AI developer. Are you interested in an internship opportunity?",
-      timestamp: new Date("2024-01-14T15:45:00"),
-      read: true
-    },
-    {
-      id: 3,
-      name: "Mike Chen",
-      email: "mike.chen@startup.io",
-      message: "Love your gaming content! Would you be interested in creating tech tutorials for our platform?",
-      timestamp: new Date("2024-01-13T09:20:00"),
-      read: true
-    }
-  ]);
   const { toast } = useToast();
 
   const socialLinks = [
@@ -119,18 +93,6 @@ const Contact = () => {
       const data = await response.json();
 
       if (data.success) {
-        // Add new message to received messages for demo purposes
-        const newMessage = {
-          id: receivedMessages.length + 1,
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          timestamp: new Date(),
-          read: false
-        };
-        
-        setReceivedMessages(prev => [newMessage, ...prev]);
-
         toast({
           title: "Message Sent!",
           description: "Thank you for reaching out. I'll get back to you soon!",
@@ -161,23 +123,6 @@ const Contact = () => {
     }));
   };
 
-  const markAsRead = (messageId: number) => {
-    setReceivedMessages(prev => 
-      prev.map(msg => 
-        msg.id === messageId ? { ...msg, read: true } : msg
-      )
-    );
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
 
   return (
     <section id="contact" className="section-padding bg-gradient-to-br from-card to-background">
@@ -344,72 +289,6 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Messages Display Section */}
-        <div className="mt-16">
-          <Card className="p-8 glass-effect border-primary/20">
-            <div className="flex items-center space-x-3 mb-8">
-              <MessageSquare className="h-8 w-8 text-primary" />
-              <h3 className="font-orbitron text-2xl font-bold text-foreground">
-                Received Messages
-              </h3>
-              <div className="ml-auto">
-                <span className="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-medium">
-                  {receivedMessages.filter(msg => !msg.read).length} unread
-                </span>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              {receivedMessages.length === 0 ? (
-                <div className="text-center py-12">
-                  <MessageSquare className="mx-auto h-16 w-16 text-muted-foreground/50 mb-4" />
-                  <p className="text-muted-foreground">No messages yet. Be the first to reach out!</p>
-                </div>
-              ) : (
-                receivedMessages.map((message) => (
-                  <Card 
-                    key={message.id} 
-                    className={`p-6 glass-effect border-primary/20 cursor-pointer transition-all duration-200 hover:border-primary/40 ${
-                      !message.read ? 'border-l-4 border-l-primary bg-primary/5' : ''
-                    }`}
-                    onClick={() => markAsRead(message.id)}
-                  >
-                    <div className="space-y-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
-                            <User className="h-5 w-5 text-white" />
-                          </div>
-                          <div>
-                            <h4 className="font-orbitron font-semibold text-foreground">
-                              {message.name}
-                            </h4>
-                            <p className="text-sm text-primary hover:text-secondary transition-colors">
-                              {message.email}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                          <Calendar className="h-4 w-4" />
-                          <span>{formatDate(message.timestamp)}</span>
-                          {!message.read && (
-                            <div className="w-2 h-2 bg-primary rounded-full"></div>
-                          )}
-                        </div>
-                      </div>
-                      
-                      <div className="pl-13">
-                        <p className="font-inter text-muted-foreground leading-relaxed">
-                          {message.message}
-                        </p>
-                      </div>
-                    </div>
-                  </Card>
-                ))
-              )}
-            </div>
-          </Card>
-        </div>
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">
